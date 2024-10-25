@@ -1,4 +1,4 @@
-package server
+package handlers
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func StaticHandler(res http.ResponseWriter, req *http.Request) {
+func Static(res http.ResponseWriter, req *http.Request) {
 
 	path := "./static"
 	if req.URL.Path == "/" {

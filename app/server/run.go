@@ -14,7 +14,7 @@ func Run(adress, port string) error {
 
 	fmt.Println("server is running on:", temp+":"+port)
 
-	http.HandleFunc("/", StaticHandler)
+	http.HandleFunc("/", router)
 
 	err := http.ListenAndServe(adress+":"+port, nil)
 	if err != nil {
