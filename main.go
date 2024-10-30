@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-
 	"groupie-tracker/funcs"
+	"net/http"
 )
 
 func main() {

@@ -27,6 +27,9 @@ func FetchArtistRelation(artistID int) (ArtistRelation, error) {
 func FetchArtistDates(artistID int) (ArtistDates, error) {
 	var dates ArtistDates
 	err := FetchData(fmt.Sprintf("%s/dates/%d", BaseURL, artistID), &dates)
+	for i := range dates.Dates {
+		dates.Dates[i] = dates.Dates[i][1:]
+	}
 	return dates, err
 }
 
@@ -45,6 +48,6 @@ func FetchArtist(artistID int) (Artist, error) {
 }
 
 // Error handler utility
-func HandleError(w http.ResponseWriter, err error, msg string, status int) {
-	http.Error(w, fmt.Sprintf("%s: %v", msg, err), status)
+func HandleError(w http.ResponseWriter, msg string, status int) {
+	http.Error(w, msg, status)
 }
