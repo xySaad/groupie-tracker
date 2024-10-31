@@ -46,8 +46,3 @@ func FetchArtist(artistID int) (Artist, error) {
 	err := FetchData(fmt.Sprintf("%s/artists/%d", BaseURL, artistID), &artist)
 	return artist, err
 }
-
-// Error handler utility
-func HandleError(w http.ResponseWriter, msg string, status int) {
-	http.Error(w, msg, status)
-}
