@@ -1,0 +1,10 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "go build -o ./tmp/main ./app"
+  bin = "./tmp/main"
+[proxy]
+  enabled = true
+  proxy_port = 3000
+  app_port = 8080
