@@ -1,13 +1,13 @@
 package funcs
 
 import (
-	"groupie-tracker/utils"
 	"html/template"
 	"net/http"
+
+	"groupie-tracker/utils"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-
 	if r.URL.Path != "/" {
 		http.Error(w, "404 - page not found", http.StatusNotFound)
 		return
@@ -37,7 +37,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ArtistHandler(w http.ResponseWriter, r *http.Request) {
-
 	if r.URL.Path != "/artist" {
 		http.Error(w, "404 - page not found", http.StatusNotFound)
 		return
@@ -69,6 +68,12 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	locations, err := FetchArtistLocations(artistID)
+	if err != nil {
+		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
+		return
+	}
+
 	dates, err := FetchArtistDates(artistID)
 	if err != nil {
 		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
@@ -77,10 +82,12 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Artist
+		Locations      []string
 		Dates          []string
 		DatesLocations map[string][]string
 	}{
 		Artist:         artist,
+		Locations:      locations.Locations,
 		Dates:          dates.Dates,
 		DatesLocations: relation.DatesLocations,
 	}

@@ -17,6 +17,12 @@ func FetchData(url string, v interface{}) error {
 	return json.NewDecoder(resp.Body).Decode(v)
 }
 
+func FetchArtistLocations(artistID int) (ArtistLocations, error) {
+	var locations ArtistLocations
+	err := FetchData(fmt.Sprintf("%s/locations/%d", BaseURL, artistID), &locations)
+	return locations, err
+}
+
 func FetchArtistRelation(artistID int) (ArtistRelation, error) {
 	var relation ArtistRelation
 	err := FetchData(fmt.Sprintf("%s/relation/%d", BaseURL, artistID), &relation)

@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Groupie Tracker - Artists</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="/static/styles/index.css" />
   </head>
   <body>
@@ -15,12 +11,12 @@
       <h1>Artists</h1>
       <div class="artist-grid">
         {{range .}}
-        <div class="artist-card">
-          <a href="/artist?id={{.ID}}">
-            <img src="{{.Image}}" alt="{{.Name}}" class="artist-icon" />
-            <p>{{.Name}}</p>
-          </a>
-        </div>
+          <div class="artist-card">
+            <a href="/artist?id={{.ID}}">
+              <img src="{{.Image}}" alt="{{.Name}}" class="artist-icon" />
+              <p>{{.Name}}</p>
+            </a>
+          </div>
         {{end}}
       </div>
     </div>
