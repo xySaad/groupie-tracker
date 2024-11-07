@@ -11,12 +11,16 @@
       <h1>Artists</h1>
       <div class="artist-grid">
         {{range .}}
-          <div class="artist-card">
-            <a href="/artist?id={{.ID}}">
-              <img src="{{.Image}}" alt="{{.Name}}" class="artist-icon" />
-              <p>{{.Name}}</p>
-            </a>
-          </div>
+        <div class="artist-card">
+          <a href="/artist?id={{.ID}}">
+            <img src="{{.Image}}" alt="{{.Name}}" class="artist-icon" />
+            <div class="nameWraper">
+              <p class="placeholder">{{.Name}}</p>
+              <p class="name left">{{.Name}}</p>
+              <p class="name right">{{.Name}}</p>
+            </div>
+          </a>
+        </div>
         {{end}}
       </div>
     </div>

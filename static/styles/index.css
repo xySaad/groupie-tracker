@@ -9,10 +9,11 @@
 
 /* Base Body Styles */
 body {
-    font-family: 'Good Times', sans-serif; /* Synthwave font */
-    background-color: #1b1b2f; /* Dark background */
+    font-family: 'Good Times', sans-serif;
+    /* Synthwave font */
+    background-color: #1b1b2f;
+    /* Dark background */
     color: #f8f8ff;
-    font-size: 1vw;
     padding: 1rem;
 }
 
@@ -21,17 +22,21 @@ body {
     max-width: 90vw;
     margin: 0 auto;
     padding: 2rem;
-    background-color: #161623; /* Deep purple */
+    background-color: #161623;
+    /* Deep purple */
     border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(255, 0, 255, 0.5); /* Neon glow */
+    box-shadow: 0 4px 20px rgba(255, 0, 255, 0.5);
+    /* Neon glow */
 }
 
 /* Title Styling */
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #ff007a; /* Neon pink */
-    text-shadow: 0 0 8px #ff007a, 0 0 16px #ff007a; /* Glowing effect */
+    color: #ff007a;
+    /* Neon pink */
+    text-shadow: 0 0 8px #ff007a, 0 0 16px #ff007a;
+    /* Glowing effect */
 }
 
 /* Artist Grid Layout */
@@ -43,27 +48,82 @@ h1 {
 
 /* Artist Card Styling */
 .artist-card {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
     text-align: center;
     padding: 10px;
     background-color: #24243e;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); /* Neon cyan */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    /* Neon cyan */
     transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+.nameWraper {
+    overflow: hidden;
+    position: relative;
+}
+
+.nameWraper .placeholder {
+    opacity: 0;
+}
+
+.nameWraper p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.name {
+    position: absolute;
+    top: 0;
+}
+
+.artist-card:hover .name {
+    overflow: visible;
+}
+
+.name.left {
+    transition: right 3s, opacity 5s;
+    right: 0%;
+}
+
+.name.right {
+    transition: left 2s, opacity 2s;
+    left: 100%;
+}
+
+.artist-card:hover .name.left {
+    opacity: 0;
+    right: 100%;
+}
+
+.artist-card:hover .name.right {
+    transition: left 2s 2s, opacity 2s;
+    left: 0;
 }
 
 .artist-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); /* Enhanced neon on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    /* Enhanced neon on hover */
 }
+
+
 
 /* Artist Icon Styling */
 .artist-icon {
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: 50%;
-    border: 3px solid #ff007a; /* Neon pink */
-    box-shadow: 0 0 12px #ff007a; /* Glowing effect */
+    border: 3px solid #ff007a;
+    /* Neon pink */
+    box-shadow: 0 0 12px #ff007a;
+    /* Glowing effect */
 }
 
 /* Full-size Artist Image Styling */
@@ -72,7 +132,8 @@ h1 {
     margin: 0 auto;
     width: 300px;
     border-radius: 8px;
-    border: 3px solid #00ffcc; /* Neon cyan */
+    border: 3px solid #00ffcc;
+    /* Neon cyan */
     box-shadow: 0 0 20px #00ffcc;
 }
 
@@ -90,7 +151,8 @@ h1 {
 
 .info:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 40px rgba(255, 0, 179, 0.7); /* Pink glow on hover */
+    box-shadow: 0 8px 40px rgba(255, 0, 179, 0.7);
+    /* Pink glow on hover */
 }
 
 .info p {
@@ -101,7 +163,8 @@ h1 {
 /* Link Styling */
 a {
     text-decoration: none;
-    color: #00ffcc; /* Neon cyan */
+    color: #00ffcc;
+    /* Neon cyan */
 }
 
 a:hover {
@@ -124,16 +187,13 @@ a:hover {
     }
 }
 
-.concert-dates, .concert-locations, .concert-relations {
-    width: 25%; /* Adjusted for responsive layout */
-}
-
-.concert-dates h2, .concert-locations h2, .concert-relations h2 {
+.concert-section h2 {
     color: #ff007a;
     text-align: left;
 }
 
-.concert-dates ul, .concert-locations ul, .concert-relations ul {
+
+.concert-section ul {
     list-style: none;
     padding: 0;
 }

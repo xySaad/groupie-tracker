@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,47 +9,49 @@
 
   <body>
     <div class="container">
-
       <h1>{{.Name}}</h1>
       <img src="{{.Image}}" alt="{{.Name}}" class="artist-image" />
 
       <div class="info">
-        <p><strong>Members:</strong> 
-          {{range $index, $member := .Members}}{{if $index}}, {{end}}{{ $member }}{{end}}
+        <p>
+          Members: {{range $index, $member := .Members}}{{if $index}}, {{end}}{{
+          $member }}{{end}}
         </p>
 
-        <p><strong>Year Formed:</strong> {{.CreationDate}}</p>
-        <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
-
+        <p>Year Formed: {{.CreationDate}}</p>
+        <p>First Album: {{.FirstAlbum}}</p>
 
         <div class="concert-container">
-          <div class="concert-locations">
+          <div class="concert-section">
             <h2>Concert Locations:</h2>
             <ul>
               {{range .Locations}}
-                <li>{{.}}</li>
+              <li>{{.}}</li>
               {{end}}
             </ul>
           </div>
 
-          <div class="concert-dates">
+          <div class="concert-section">
             <h2>Concert Dates:</h2>
             <ul>
               {{range .Dates}}
-                <li>{{.}}</li>
+              <li>{{.}}</li>
               {{end}}
             </ul>
           </div>
 
-          <div class="concert-relations">
+          <div class="concert-section">
             <h2>Concert Relations:</h2>
             <ul>
               {{range $location, $dates := .DatesLocations}}
-                <li><strong>{{$location}}:</strong>
-                  <ul>
-                    {{range $dates}}<li>{{.}}</li>{{end}}
-                  </ul>
-                </li>
+              <li>
+                {{$location}}:
+                <ul>
+                  {{range $dates}}
+                  <li>{{.}}</li>
+                  {{end}}
+                </ul>
+              </li>
               {{end}}
             </ul>
           </div>
