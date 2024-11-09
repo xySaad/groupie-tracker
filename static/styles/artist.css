@@ -40,18 +40,19 @@
 }
 
 .details {
-    border-radius: 10px;
-    box-shadow: rgb(211, 0, 0) 0 0 10px 2px;
     width: 70%;
     margin-left: 10%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row;
-    padding: 10px;
+    padding: 10px 0;
+
 }
 
-.section {
-    padding: 10px;
+.details .section {
+    border-radius: 10px;
+    box-shadow: rgb(211, 0, 0) 0 0 10px 2px;
+    padding: 3% 10%;
 }
 
 .artist .details .title {
