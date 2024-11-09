@@ -39,27 +39,11 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	locations, err := utils.FetchArtistLocations(artistID)
-	if err != nil {
-		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
-		return
-	}
-
-	dates, err := utils.FetchArtistDates(artistID)
-	if err != nil {
-		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
-		return
-	}
-
 	data := struct {
 		models.Artist
-		Locations      []string
-		Dates          []string
 		DatesLocations map[string][]string
 	}{
 		Artist:         artist,
-		Locations:      locations.Locations,
-		Dates:          dates.Dates,
 		DatesLocations: relation.DatesLocations,
 	}
 
