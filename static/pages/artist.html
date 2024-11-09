@@ -5,55 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{.Name}} - Concert Info</title>
     <link rel="stylesheet" href="/static/styles/index.css" />
+    <link rel="stylesheet" href="/static/styles/artist.css" />
   </head>
-
   <body>
-    <div class="container">
-      <h1>{{.Name}}</h1>
-      <img src="{{.Image}}" alt="{{.Name}}" class="artist-image" />
-
+    <div class="artist">
+      <div class="bg" style="background-image: url({{.Image}});"></div>
+      <h1 class="name">{{.Name}}</h1>
       <div class="info">
-        <p>
-          Members: {{range $index, $member := .Members}}{{if $index}}, {{end}}{{
-          $member }}{{end}}
-        </p>
-
-        <p>Year Formed: {{.CreationDate}}</p>
-        <p>First Album: {{.FirstAlbum}}</p>
-
-        <div class="concert-container">
-          <div class="concert-section">
-            <h2>Concert Locations:</h2>
-            <ul>
-              {{range .Locations}}
-              <li>{{.}}</li>
-              {{end}}
-            </ul>
+        <div class="image">
+          <img src="{{.Image}}" alt="{{.Name}}" />
+          <div class="section">
+            <p>Year Formed: {{.CreationDate}}</p>
+            <p>First Album: {{.FirstAlbum}}</p>
           </div>
-
-          <div class="concert-section">
-            <h2>Concert Dates:</h2>
-            <ul>
-              {{range .Dates}}
-              <li>{{.}}</li>
-              {{end}}
-            </ul>
+        </div>
+        <div class="details">
+          <div class="section">
+            <div class="title">Members</div>
+            {{range $index, $member := .Members}}{{if $index}} {{end}}
+            <p>{{$member }}</p>
+            {{end}}
           </div>
-
-          <div class="concert-section">
-            <h2>Concert Relations:</h2>
-            <ul>
+          <div class="section">
+            <div class="title">Concert Relations</div>
+            <div class="locations">
               {{range $location, $dates := .DatesLocations}}
-              <li>
-                {{$location}}:
-                <ul>
+              <div class="location">
+                <div class="name">{{$location}}:</div>
+                <div class="dates">
                   {{range $dates}}
-                  <li>{{.}}</li>
+                  <div class="date">{{.}}</div>
                   {{end}}
-                </ul>
-              </li>
+                </div>
+              </div>
               {{end}}
-            </ul>
+            </div>
           </div>
         </div>
       </div>
