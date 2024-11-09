@@ -1,42 +1,13 @@
-package funcs
+package handlers
 
 import (
+	"groupie-tracker/models"
+	"groupie-tracker/utils"
 	"html/template"
 	"net/http"
-
-	"groupie-tracker/utils"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "404 - page not found", http.StatusNotFound)
-		return
-	}
-
-	if r.Method != http.MethodGet {
-		http.Error(w, "501 - method not implemented", http.StatusNotImplemented)
-		return
-	}
-
-	artists, err := FetchAllArtists()
-	if err != nil {
-		http.Error(w, "Error fetching artists", http.StatusInternalServerError)
-		return
-	}
-
-	tmpl, err := template.ParseFiles("./static/pages/home.html")
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		return
-	}
-	err = tmpl.Execute(w, artists)
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		return
-	}
-}
-
-func ArtistHandler(w http.ResponseWriter, r *http.Request) {
+func Artist(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/artist" {
 		http.Error(w, "404 - page not found", http.StatusNotFound)
 		return
@@ -56,32 +27,32 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	artist, err := FetchArtist(artistID)
+	artist, err := utils.FetchArtist(artistID)
 	if err != nil {
 		http.Error(w, "Error fetching artist data", http.StatusInternalServerError)
 		return
 	}
 
-	relation, err := FetchArtistRelation(artistID)
+	relation, err := utils.FetchArtistRelation(artistID)
 	if err != nil {
 		http.Error(w, "Error fetching artist relation data", http.StatusInternalServerError)
 		return
 	}
 
-	locations, err := FetchArtistLocations(artistID)
+	locations, err := utils.FetchArtistLocations(artistID)
 	if err != nil {
 		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
 		return
 	}
 
-	dates, err := FetchArtistDates(artistID)
+	dates, err := utils.FetchArtistDates(artistID)
 	if err != nil {
 		http.Error(w, "Error fetching artist dates", http.StatusInternalServerError)
 		return
 	}
 
 	data := struct {
-		Artist
+		models.Artist
 		Locations      []string
 		Dates          []string
 		DatesLocations map[string][]string

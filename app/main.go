@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"groupie-tracker/funcs"
+	"groupie-tracker/handlers"
 	"net/http"
 )
 
 func main() {
 	// Handle root and artist pages
-	http.HandleFunc("/", funcs.HomeHandler)
-	http.HandleFunc("/artist", funcs.ArtistHandler)
+	http.HandleFunc("/", handlers.Home)
+	http.HandleFunc("/artist", handlers.Artist)
 
 	// Serve static files like CSS
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
