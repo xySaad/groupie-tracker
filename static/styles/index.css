@@ -1,70 +1,114 @@
-/* Reset Styles */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css?family=Exo:700|Exo:400');
+
+body {
+    font-family: 'Exo';
+    font-weight: bold;
 }
 
-/* Base Body Styles */
+body:has(.theme.light) {
+    --text: hsl(248, 60%, 5%);
+    --background: hsl(248, 60%, 95%);
+    --primary: hsl(249, 59%, 28%);
+    --secondary: hsl(7, 69%, 31%);
+    --accent: hsl(109, 59%, 43%);
+}
+
+body:has(.theme.dark) {
+    --text: hsl(248, 57%, 95%);
+    --background: hsl(249, 57%, 5%);
+    --primary: hsl(249, 59%, 72%);
+    --secondary: hsl(7, 69%, 31%);
+    --secondary: hsl(228, 64%, 32%);
+    --accent: hsl(109, 59%, 57%);
+}
+
+
 body {
-    font-family: 'Good Times', sans-serif;
-    /* Synthwave font */
-    background-color: #1b1b2f;
-    /* Dark background */
-    color: #f8f8ff;
+    background-color: var(--background);
+    color: hsl(270, 43%, 91%);
     padding: 16px;
     height: 100vh;
 }
 
-/* Main Container Styling */
-.container {
-    max-width: 90vw;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #161623;
-    /* Deep purple */
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(1, 7, 94, 0.5);
-    /* Neon glow */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Title Styling */
 h1 {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
     margin-bottom: 20px;
-    color: #00aeff;
-    /* Neon pink */
-    text-shadow: 0 0 8px #32008f9a, 0 0 16px #01177a;
-    /* Glowing effect */
 }
 
-/* Artist Grid Layout */
-.artist-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+.container {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 20px;
+    max-width: 90vw;
+    padding: 2rem 1rem;
+    background-color: #161623;
+    border-radius: 8px;
 }
 
-/* Artist Card Styling */
-.artist-card {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1/1;
-    text-align: center;
-    padding: 10px;
-    background-color: #24243e;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(1, 55, 155, 0.3);
-    /* Neon cyan */
-    transition: transform 0.3s, box-shadow 0.3s;
 
+.artist-card {
+    max-width: 23%;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.artist-card:hover {
+    transform: scale(1.05);
+}
+
+.artist-card:hover img {
+    box-shadow: 0 20px 80px -10px var(--primary);
+}
+
+
+/* .artist-card:hover img,
+.artist-card:hover+.artist-card img,
+.artist-card:has(+ .artist-card:hover) img {
+    filter: brightness(100%);
+} */
+
+.artist-card:hover .nameWraper {
+    box-shadow: 0 0 10px var(--primary);
+    border: 1px solid rgb(1, 162, 184);
+}
+
+
+
+.artist-card img {
+    /* filter: brightness(80%); */
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+.artist-card[data-id="3"] img {
+    border-radius: 100%;
 }
 
 .nameWraper {
+    color: var(--text);
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
     overflow: hidden;
     position: relative;
+    border: 1px solid rgba(0, 0, 0, 0);
 }
 
 .nameWraper .placeholder {
@@ -83,7 +127,7 @@ h1 {
     top: 0;
 }
 
-.artist-card:hover .name {
+.nameWraper:hover .name {
     overflow: visible;
 }
 
@@ -97,32 +141,17 @@ h1 {
     left: 100%;
 }
 
-.artist-card:hover .name.left {
+.nameWraper:hover .name.left {
     opacity: 0;
     right: 100%;
 }
 
-.artist-card:hover .name.right {
+.nameWraper:hover .name.right {
     transition: left 2s 2s, opacity 2s;
     left: 0;
 }
 
-.artist-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-    /* Enhanced neon on hover */
-}
 
-
-
-/* Artist Icon Styling */
-.artist-icon {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid rgb(1, 162, 184);
-}
 
 
 /* Link Styling */

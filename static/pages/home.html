@@ -7,22 +7,23 @@
     <link rel="stylesheet" href="/static/styles/index.css" />
   </head>
   <body>
+    <header>
+      <h1>Groupie Tracker</h1>
+      <div class="theme dark">theme</div>
+    </header>
     <div class="container">
-      <h1>Artists</h1>
-      <div class="artist-grid">
-        {{range .}}
-        <div class="artist-card">
-          <a href="/artist?id={{.ID}}">
-            <img src="{{.Image}}" alt="{{.Name}}" class="artist-icon" />
-            <div class="nameWraper">
-              <p class="placeholder">{{.Name}}</p>
-              <p class="name left">{{.Name}}</p>
-              <p class="name right">{{.Name}}</p>
-            </div>
-          </a>
-        </div>
-        {{end}}
+      {{range .}}
+      <div data-id="{{.ID}}" class="artist-card">
+        <a href="/artist?id={{.ID}}">
+          <div class="image"><img src="{{.Image}}" alt="{{.Name}}" /></div>
+          <div class="nameWraper">
+            <p class="placeholder">{{.Name}}</p>
+            <p class="name left">{{.Name}}</p>
+            <p class="name right">{{.Name}}</p>
+          </div>
+        </a>
       </div>
+      {{end}}
     </div>
   </body>
 </html>
