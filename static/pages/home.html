@@ -27,16 +27,16 @@
   <body>
     <div class="container">
       {{range .}}
-      <div data-id="{{.ID}}" class="artist-card">
-        <a href="/artist?id={{.ID}}">
+      <div data-id="{{.id}}" class="artist-card">
+        <a href="/artist?id={{.id}}">
           <div class="image">
-            <div class="creationDate">{{.CreationDate}}</div>
-            <img src="{{.Image}}" alt="{{.Name}}" />
+            <div class="creationDate">{{.creationDate}}</div>
+            <img src="{{.image}}" alt="{{.name}}" />
           </div>
           <div class="nameWraper">
-            <p class="placeholder">{{.Name}}</p>
-            <p class="name left">{{.Name}}</p>
-            <p class="name right">{{.Name}}</p>
+            <p class="placeholder">{{.name}}</p>
+            <p class="name left">{{.name}}</p>
+            <p class="name right">{{.name}}</p>
           </div>
         </a>
       </div>

@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"encoding/json"
 	"fmt"
 	"groupie-tracker/models"
+	"io"
 	"net/http"
 )
 
@@ -14,26 +14,33 @@ func FetchData(url string, v interface{}) error {
 		return err
 	}
 	defer resp.Body.Close()
-
-	return json.NewDecoder(resp.Body).Decode(v)
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	getter, err := Decode(string(body))
+	if err != nil {
+		return err
+	}
+	return getter.Get(v, "")
 }
 
-func FetchArtistRelation(artistID int) (models.ArtistRelation, error) {
-	var relation models.ArtistRelation
+func FetchArtistRelation(artistID int) (Object, error) {
+	var relation Object
 	err := FetchData(fmt.Sprintf("%s/relation/%d", models.BaseURL, artistID), &relation)
 	return relation, err
 }
 
 // Fetch all artists
-func FetchAllArtists() ([]models.Artist, error) {
-	var artists []models.Artist
+func FetchAllArtists() ([]Object, error) {
+	var artists []Object
 	err := FetchData(fmt.Sprintf("%s/artists", models.BaseURL), &artists)
 	return artists, err
 }
 
 // Fetch specific artist data
-func FetchArtist(artistID int) (models.Artist, error) {
-	var artist models.Artist
+func FetchArtist(artistID int) (Object, error) {
+	var artist Object
 	err := FetchData(fmt.Sprintf("%s/artists/%d", models.BaseURL, artistID), &artist)
 	return artist, err
 }

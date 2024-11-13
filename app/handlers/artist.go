@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"groupie-tracker/models"
+	"fmt"
 	"groupie-tracker/utils"
 	"html/template"
 	"net/http"
@@ -38,18 +38,29 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error fetching artist relation data", http.StatusInternalServerError)
 		return
 	}
-
+	var datesLocations utils.Object
+	err = relation.Get(&datesLocations, ".datesLocations")
+	if err != nil {
+		http.Error(w, "Error getting datesLocations from relation", http.StatusInternalServerError)
+		return
+	}
 	data := struct {
-		models.Artist
-		DatesLocations map[string][]string
+		Artist         utils.Object
+		DatesLocations utils.Object
 	}{
 		Artist:         artist,
-		DatesLocations: relation.DatesLocations,
+		DatesLocations: datesLocations,
 	}
 
-	tmpl := template.Must(template.ParseFiles("./static/pages/artist.html"))
+	tmpl, err := template.ParseFiles("./static/pages/artist.html")
+	if err != nil {
+		http.Error(w, "Error parsing template", http.StatusInternalServerError)
+		return
+	}
 	err = tmpl.Execute(w, data)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		return
 	}
 }
