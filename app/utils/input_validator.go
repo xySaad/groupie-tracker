@@ -5,12 +5,12 @@ import (
 	"strconv"
 )
 
-func ValidateArtistID(queries map[string][]string) (int, string, int) {
+func ValidateArtistID(queries map[string][]string) (string, int) {
 	msg := "ok"
 	status := http.StatusOK
 
 	if queries["id"] == nil {
-		return 0, "400 - missing id", http.StatusBadRequest
+		return "400 - missing id", http.StatusBadRequest
 	}
 
 	artistIDStr := queries["id"][0]
@@ -29,5 +29,5 @@ func ValidateArtistID(queries map[string][]string) (int, string, int) {
 		msg, status = "400 - invalid empty artist id", http.StatusBadRequest
 	}
 
-	return artistID, msg, status
+	return msg, status
 }

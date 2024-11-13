@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{.Artist.name}}</title>
+    <title>{{.name}}</title>
     <link rel="stylesheet" href="/static/styles/index.css" />
     <link rel="stylesheet" href="/static/styles/artist.css" />
   </head>
@@ -27,26 +27,26 @@
   </header>
   <body>
     <div class="artist">
-      <h2 class="name">{{.Artist.name}}</h2>
+      <h2 class="name">{{.name}}</h2>
       <div class="info">
         <div class="image">
-          <img src="{{.Artist.image}}" alt="{{.Artist.name}}" />
+          <img src="{{.image}}" alt="{{.name}}" />
           <div class="section">
-            <p>Year Formed: {{.Artist.creationDate}}</p>
-            <p>First Album: {{.Artist.firstAlbum}}</p>
+            <p>Year Formed: {{.creationDate}}</p>
+            <p>First Album: {{.firstAlbum}}</p>
           </div>
         </div>
         <div class="details">
           <div class="section">
             <div class="title">Members</div>
-            {{range $index, $member := .Artist.members}}{{if $index}} {{end}}
+            {{range $index, $member := .members}}{{if $index}} {{end}}
             <p>{{$member }}</p>
             {{end}}
           </div>
           <div class="section">
             <div class="title">Concert Relations</div>
             <div class="locations">
-              {{range $location, $dates := .DatesLocations}}
+              {{range $location, $dates := .datesLocations}}
               <div class="location">
                 <div class="name">{{$location}}:</div>
                 <div class="dates">
