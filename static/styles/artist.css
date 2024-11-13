@@ -13,6 +13,7 @@
     position: relative;
 }
 
+
 .artist .image {
     max-width: 30vw;
     margin-bottom: 10px;
@@ -24,25 +25,26 @@
 }
 
 .details {
-    width: 70%;
-    margin-left: 10%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
-    padding: 10px 0;
-
 }
 
 .details .section {
+    border: 1px solid var(--primary);
     border-radius: 10px;
-    box-shadow: rgb(211, 0, 0) 0 0 10px 2px;
     padding: 3% 10%;
 }
 
 .artist .details .title {
+    width: fit-content;
+    padding: 0 12px 0 0;
+    border-bottom: var(--primary) 1px solid;
+    text-align: start;
+    color: var(--primary);
     margin-bottom: 10px;
     font-size: 20px;
-    font-weight: bold;
 }
 
 .locations {
@@ -51,13 +53,11 @@
     gap: 10px;
 }
 
-.location .name {
-    font-weight: bold;
-    color: rgb(37, 167, 177);
-}
+
 
 .info {
+    font-style: italic;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }

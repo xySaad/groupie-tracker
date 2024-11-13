@@ -16,10 +16,9 @@ body {
     --accent: hsl(109, 59%, 57%);
 }
 
-
 body {
     font-family: 'Exo';
-    font-weight: bold;
+    font-weight: 600;
     background-color: var(--background);
     color: var(--text);
     padding: 16px;
