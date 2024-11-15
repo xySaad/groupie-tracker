@@ -27,20 +27,21 @@
 .details {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .details .section {
+    white-space: nowrap;
+    flex: 1;
     border: 1px solid var(--primary);
     border-radius: 10px;
-    padding: 3% 10%;
+    padding: 10px;
 }
 
 .artist .details .title {
-    width: fit-content;
-    padding: 0 12px 0 0;
-    border-bottom: var(--primary) 1px solid;
     text-align: start;
     color: var(--primary);
     margin-bottom: 10px;
@@ -53,10 +54,21 @@
     gap: 10px;
 }
 
+.location .name {
+    width: fit-content;
+    max-width: calc(100% - 10px);
+    border-bottom: var(--accent) 1px solid;
+    font-style: italic;
+}
 
+.location .dates {
+    padding: 10px;
+    border-radius: 0 10px 10px 10px;
+    background: var(--secondary);
+}
 
 .info {
-    font-style: italic;
+    gap: 10px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
