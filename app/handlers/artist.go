@@ -24,12 +24,13 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 
 	msg, status := utils.ValidateArtistID(queries)
 
-	artistID := queries["id"][0]
-
 	if status != http.StatusOK {
 		http.Error(w, msg, status)
 		return
 	}
+
+	artistID := queries["id"][0]
+
 	var artist utils.Object
 	err := utils.FetchData(BaseURL+"/artists/"+artistID, &artist)
 	if err != nil {

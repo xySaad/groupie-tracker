@@ -9,7 +9,11 @@ import (
 
 func main() {
 	var err error
-	config.InitTemplates()
+	err = config.InitTemplates()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/artist", handlers.Artist)
 
