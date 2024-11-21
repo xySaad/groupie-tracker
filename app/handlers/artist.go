@@ -32,21 +32,28 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 	artistID := queries["id"][0]
 
 	var artist utils.Object
-	err := utils.FetchData(BaseURL+"/artists/"+artistID, &artist)
-	if err != nil {
-		http.Error(w, "Error fetching artist data", http.StatusInternalServerError)
-		return
-	}
-
 	var relation utils.Object
-	err = utils.FetchData(BaseURL+"/relation/"+artistID, &relation)
-	if err != nil {
-		http.Error(w, "Error fetching artist relation data", http.StatusInternalServerError)
-		return
+	errChan := make(chan error)
+
+	go func() {
+		err := utils.FetchData(BaseURL+"/artists/"+artistID, &artist)
+		errChan <- err
+	}()
+
+	go func() {
+		err := utils.FetchData(BaseURL+"/relation/"+artistID, &relation)
+		errChan <- err
+	}()
+
+	for i := 0; i < 2; i++ {
+		if <-errChan != nil {
+			http.Error(w, "Error fetching artist data from relation", http.StatusInternalServerError)
+			return
+		}
 	}
 
 	var datesLocations utils.Object
-	err = relation.Get(&datesLocations, ".datesLocations")
+	err := relation.Get(&datesLocations, ".datesLocations")
 	if err != nil {
 		http.Error(w, "Error getting datesLocations from relation", http.StatusInternalServerError)
 		return
