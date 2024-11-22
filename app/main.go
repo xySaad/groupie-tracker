@@ -5,9 +5,14 @@ import (
 	"groupie-tracker/config"
 	"groupie-tracker/handlers"
 	"net/http"
+	"os"
 )
 
 func main() {
+	if len(os.Args) > 1 {
+		fmt.Println("too many arguments")
+		return
+	}
 	var err error
 	err = config.InitTemplates()
 	if err != nil {
