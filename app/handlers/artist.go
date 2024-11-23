@@ -9,6 +9,11 @@ import (
 
 const BaseURL = "https://groupietrackers.herokuapp.com/api"
 
+type fetchError struct {
+	message string
+	error
+}
+
 func Artist(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/artist" {
 		http.Error(w, "404 - page not found", http.StatusNotFound)
@@ -33,21 +38,30 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 
 	var artist utils.Object
 	var relation utils.Object
-	errChan := make(chan error)
+	errChan := make(chan fetchError)
 
 	go func() {
 		err := utils.FetchData(BaseURL+"/artists/"+artistID, &artist)
-		errChan <- err
+		if err != nil {
+			errChan <- fetchError{"Error fetching artist data", err}
+		} else {
+			errChan <- fetchError{}
+		}
 	}()
 
 	go func() {
 		err := utils.FetchData(BaseURL+"/relation/"+artistID, &relation)
-		errChan <- err
+		if err != nil {
+			errChan <- fetchError{"Error fetching relation data", err}
+		} else {
+			errChan <- fetchError{}
+		}
 	}()
 
 	for i := 0; i < 2; i++ {
-		if <-errChan != nil {
-			http.Error(w, "Error fetching artist data from relation", http.StatusInternalServerError)
+		err := <-errChan
+		if err.error != nil {
+			http.Error(w, err.message, http.StatusInternalServerError)
 			return
 		}
 	}
