@@ -41,31 +41,37 @@ func getHelper(jsonData any, holder any, path string) error {
 		case *[]any:
 			jsonArray, ok := jsonData.([]any)
 			if !ok {
-				return errors.New("mismatched types" + reflect.TypeOf(jsonData).String() + reflect.TypeOf(holder).String())
+				return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
 			}
 			*h = jsonArray
 		case *Object:
 			jsonObject, ok := jsonData.(Object)
 			if !ok {
-				return errors.New("mismatched types" + reflect.TypeOf(jsonData).String() + reflect.TypeOf(holder).String())
+				return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
 			}
 			*h = jsonObject
 		case *[]Object:
 			jsonArray, ok := jsonData.([]any)
 			if !ok {
-				return errors.New("mismatched types" + reflect.TypeOf(jsonData).String() + reflect.TypeOf(holder).String())
+				return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
 			}
 			var jsonArrayOfObject []Object
 			for _, arrayElement := range jsonArray {
 				object, ok := arrayElement.(Object)
 				if !ok {
-					return errors.New("mismatched types" + reflect.TypeOf(jsonData).String() + reflect.TypeOf(holder).String())
+					return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
 				}
 				jsonArrayOfObject = append(jsonArrayOfObject, object)
 			}
 			*h = jsonArrayOfObject
+		case *int:
+			intValue, ok := jsonData.(int)
+			if !ok {
+				return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
+			}
+			*h = intValue
 		default:
-			return errors.New("mismatched types" + reflect.TypeOf(jsonData).String() + reflect.TypeOf(holder).String())
+			return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
 		}
 		return nil
 	}
@@ -116,14 +122,13 @@ func (s stateMap) init() stateMap {
 	value := &token{start: ':', end: ',', depth: -1}
 
 	return stateMap{
-		'{':  object,
-		'}':  object,
-		'[':  array,
-		']':  array,
-		'"':  &token{start: '"', end: '"', depth: -1},
-		':':  value,
-		',':  value,
-		'\\': &token{start: '\\', end: '"', depth: -1},
+		'{': object,
+		'}': object,
+		'[': array,
+		']': array,
+		'"': &token{start: '"', end: '"', depth: -1},
+		':': value,
+		',': value,
 	}
 }
 
@@ -168,7 +173,7 @@ func decoderHelper(state stateMap, stack *[]rune, depth *int, char rune, t *toke
 	} else if len(*stack) > 0 && state[(*stack)[len(*stack)-1]].sep == char {
 	} else if char == t.end {
 		if len(*stack) > 0 {
-			if state[(*stack)[len(*stack)-1]].start != t.start && state[(*stack)[len(*stack)-1]].start != '\\' {
+			if state[(*stack)[len(*stack)-1]].start != t.start {
 				if state[(*stack)[len(*stack)-1]].end == ',' && isLastChar {
 					*stack = (*stack)[:len(*stack)-1]
 
@@ -267,14 +272,18 @@ func parseArray(str string) ([]any, error) {
 	item := ""
 	for index < len(rawR) {
 		char := rawR[index]
-		item += string(char)
+
+		if !(depth == 0 && char == '\\' && rawR[index+1] != '\\' && len(stack) > 0 && stack[len(stack)-1] == '"') {
+			item += string(char)
+		}
+
 		if item == "," || (index == len(rawR)-1 && char == ']') {
 			item = ""
 			index++
 			continue
 		}
 		t, exist := state[char]
-		if exist {
+		if exist && !(index > 0 && rawR[index-1] == '\\') {
 			err := decoderHelper(state, &stack, &depth, char, t, index == len(rawR)-1, index)
 			if err != nil {
 				fmt.Println("err decoderHelper in parseArray")
@@ -317,7 +326,9 @@ func parseObject(raw string) (Object, error) {
 		if inProp && !inValue {
 			property += string(char)
 		} else if inValue {
-			value += string(char)
+			if !(depth == 0 && char == '\\' && rawR[index+1] != '\\' && len(stack) > 0 && stack[len(stack)-1] == '"') {
+				value += string(char)
+			}
 		}
 		if char == '{' {
 		} else if char == '"' {
@@ -342,7 +353,7 @@ func parseObject(raw string) (Object, error) {
 			return nil, errors.New("expected1: " + string(state[(stack)[len(stack)-1]].end) + " found: " + string(char))
 		}
 		t, exist := state[char]
-		if exist {
+		if exist && !(index > 0 && rawR[index-1] == '\\') {
 			err := decoderHelper(state, &stack, &depth, char, t, index == len(rawR)-1, index)
 			if err != nil {
 				fmt.Println("err decoderHelper in parseObject")
