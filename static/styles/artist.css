@@ -34,6 +34,7 @@
 }
 
 .details .section {
+    background: hsla(0, 0%, 0%, 0.473);
     white-space: nowrap;
     flex: 1;
     border: 1px solid var(--primary);
@@ -46,6 +47,15 @@
     color: var(--primary);
     margin-bottom: 10px;
     font-size: 20px;
+}
+
+.artist .banner {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: auto;
 }
 
 .locations {

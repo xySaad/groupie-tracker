@@ -38,6 +38,7 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 
 	var artist utils.Object
 	var relation utils.Object
+	var bannerUrl string
 	errChan := make(chan fetchError)
 
 	go func() {
@@ -66,14 +67,22 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	url, err := utils.GetBanner(artist["name"].(string))
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		bannerUrl = url
+	}
+
 	var datesLocations utils.Object
-	err := relation.Get(&datesLocations, ".datesLocations")
+	err = relation.Get(&datesLocations, ".datesLocations")
 	if err != nil {
 		http.Error(w, "Error getting datesLocations from relation", http.StatusInternalServerError)
 		return
 	}
 
 	artist["datesLocations"] = datesLocations
+	artist["banner"] = bannerUrl
 
 	err = config.Templates.ExecuteTemplate(w, "artist.html", artist)
 	if err != nil {
