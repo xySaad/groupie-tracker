@@ -27,7 +27,9 @@
   </header>
   <body>
     <div class="artist">
-      <img class="banner" alt="" src="{{.banner}}" />
+      <div class="banner dim-bg">
+        <img alt="" src="{{.banner}}" />
+      </div>
       <h2 class="name">{{.name}}</h2>
       <div class="info">
         <div class="image">
@@ -38,13 +40,13 @@
           </div>
         </div>
         <div class="details">
-          <div class="section">
+          <div class="section dim-bg">
             <div class="title">Members</div>
             {{range $index, $member := .members}}{{if $index}} {{end}}
             <p>{{$member }}</p>
             {{end}}
           </div>
-          <div class="section">
+          <div class="section dim-bg">
             <div class="title">Concerts</div>
             <div class="locations">
               {{range $location, $dates := .datesLocations}}

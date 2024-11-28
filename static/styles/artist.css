@@ -34,7 +34,6 @@
 }
 
 .details .section {
-    background: hsla(0, 0%, 0%, 0.473);
     white-space: nowrap;
     flex: 1;
     border: 1px solid var(--primary);
@@ -49,20 +48,24 @@
     font-size: 20px;
 }
 
-.artist .banner {
-    z-index: -1;
-    position: fixed;
-    top: 0;
-    left: 0;
+.artist .banner img {
     height: 100vh;
     width: 100vw;
     object-fit: cover;
 }
 
+.artist .banner {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
+
 .locations {
     display: flex;
-    flex-direction: column;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .location .name {
@@ -73,9 +76,19 @@
 }
 
 .location .dates {
+    transition: all 0.5s linear;
+    display: flex;
     padding: 10px;
     border-radius: 0 10px 10px 10px;
-    background: var(--secondary);
+    flex-wrap: wrap;
+    gap: 10px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.location .dates .date {
+    width: 45%;
 }
 
 .info {
@@ -83,4 +96,11 @@
     width: 100%;
     display: flex;
     justify-content: flex-start;
+}
+
+
+.location:has(.name:hover) .dates {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
 }
