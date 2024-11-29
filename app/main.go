@@ -13,12 +13,11 @@ func main() {
 		fmt.Println("too many arguments")
 		return
 	}
-	var err error
-	err = config.InitTemplates()
+	err := config.InitTemplates("pages/*.html", "components/*.html")
 	if err != nil {
-		fmt.Println(err)
-		return
+		panic(err)
 	}
+
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/artist", handlers.Artist)
 

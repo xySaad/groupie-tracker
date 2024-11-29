@@ -6,8 +6,19 @@ import (
 
 var Templates *template.Template
 
-func InitTemplates() error {
-	var err error
-	Templates, err = template.ParseGlob("./static/pages/*html")
-	return err
+func InitTemplates(patterns ...string) error {
+	Templates = template.New("")
+
+	for _, pattern := range patterns {
+		if pattern[0] == '/' {
+			pattern = pattern[1:]
+		}
+
+		_, err := Templates.ParseGlob("./static/" + pattern)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
