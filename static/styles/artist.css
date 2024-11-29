@@ -14,7 +14,7 @@
 }
 
 
-.artist .image {
+.artist .overview {
     max-width: 30vw;
     margin-bottom: 10px;
 }
@@ -103,4 +103,14 @@
     opacity: 1;
     height: auto;
     overflow: visible;
+}
+
+.artist>.name,
+.artist .overview p {
+    text-shadow: 1px 1px 2px var(--background),
+        1px -1px 2px var(--background),
+        -1px 1px 2px var(--background),
+        -1px -1px 2px var(--background);
+    padding: 5px;
+    border-radius: 5px;
 }
