@@ -16,15 +16,14 @@ func ValidateArtistID(queries map[string][]string) (string, int) {
 		return "400 - empty artist id", http.StatusBadRequest
 	}
 
-	artistID, err := strconv.Atoi(artistIDStr)
+	id, err := strconv.Atoi(artistIDStr)
 
 	if err != nil {
 		return "400 - invalid artist id", http.StatusBadRequest
 	}
 
-	if artistID < 1 || artistID > 52 {
+	if id <= 0 {
 		return "404 - artist not found", http.StatusNotFound
 	}
-
 	return "ok", http.StatusOK
 }

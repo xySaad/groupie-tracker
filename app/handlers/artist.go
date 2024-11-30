@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"groupie-tracker/config"
 	"groupie-tracker/utils"
@@ -10,6 +11,7 @@ import (
 const BaseURL = "https://groupietrackers.herokuapp.com/api"
 
 type fetchError struct {
+	status  int
 	message string
 	error
 }
@@ -44,25 +46,36 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		err := utils.FetchData(BaseURL+"/artists/"+artistID, &artist)
 		if err != nil {
-			errChan <- fetchError{"Error fetching artist data", err}
-		} else {
-			errChan <- fetchError{}
+			errChan <- fetchError{500, "Error fetching artist data", err}
+			return
 		}
+		if artist["id"] == 0 {
+			err = errors.New("404 - artist not found")
+			errChan <- fetchError{404, err.Error(), err}
+			return
+		}
+		errChan <- fetchError{}
 	}()
 
 	go func() {
 		err := utils.FetchData(BaseURL+"/relation/"+artistID, &relation)
 		if err != nil {
-			errChan <- fetchError{"Error fetching relation data", err}
-		} else {
-			errChan <- fetchError{}
+			errChan <- fetchError{505, "Error fetching relation data", err}
+			return
 		}
+		if artist["id"] == 0 {
+			err = errors.New("artist not found")
+			errChan <- fetchError{404, err.Error(), err}
+			return
+		}
+		errChan <- fetchError{}
 	}()
 
 	for i := 0; i < 2; i++ {
 		err := <-errChan
 		if err.error != nil {
-			http.Error(w, err.message, http.StatusInternalServerError)
+			fmt.Println(err)
+			http.Error(w, err.message, err.status)
 			return
 		}
 	}
@@ -74,14 +87,7 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		bannerUrl = url
 	}
 
-	var datesLocations utils.Object
-	err = relation.Get(&datesLocations, ".datesLocations")
-	if err != nil {
-		http.Error(w, "Error getting datesLocations from relation", http.StatusInternalServerError)
-		return
-	}
-
-	artist["datesLocations"] = datesLocations
+	artist["datesLocations"] = relation["datesLocations"]
 	artist["banner"] = bannerUrl
 
 	err = config.Templates.ExecuteTemplate(w, "artist.html", artist)
