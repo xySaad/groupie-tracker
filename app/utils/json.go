@@ -47,7 +47,7 @@ func getHelper(jsonData any, holder any, path string) error {
 		case *Object:
 			jsonObject, ok := jsonData.(Object)
 			if !ok {
-				return errors.New("mismatched types " + reflect.TypeOf(jsonData).String() + " " + reflect.TypeOf(holder).String())
+				return errors.New(fmt.Sprintln("mismatched types", reflect.TypeOf(jsonData), reflect.TypeOf(holder)))
 			}
 			*h = jsonObject
 		case *[]Object:
@@ -238,11 +238,17 @@ func appendValue(propName string, value string, jMap any) error {
 		}
 		result = value
 	} else {
-		num, err := strconv.Atoi(value)
-		if err != nil {
-			return errors.New("invalid value type: " + value)
+		switch value {
+		case "null":
+			result = nil
+		default:
+			num, err := strconv.Atoi(value)
+			if err != nil {
+				return errors.New("invalid value type: " + value)
+			}
+			result = num
 		}
-		result = num
+
 	}
 	switch v := (jMap).(type) {
 	case *Object:
