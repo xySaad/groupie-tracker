@@ -11,19 +11,27 @@ import (
 )
 
 var baseUrl = "https://music.youtube.com/"
+var bannerStoreDirectory = "./static/assets/banners/"
 
 func GetBanner(artistName string) (string, error) {
+	bannerStorePath := bannerStoreDirectory + artistName + ".jpeg"
+
+	if isStored(bannerStorePath) {
+		return bannerStorePath, nil
+	}
+
 	path, err := search(url.QueryEscape(artistName))
 	if err != nil {
 		return "", err
 	}
 
-	url, err := getBanner(string(path))
-	if err != nil {
-		return "", err
-	}
+	bannerUrl, err := scrapThumbnail(string(path))
 
-	return url, err
+	defer func() {
+		go storeBanner(bannerUrl, bannerStorePath)
+	}()
+
+	return bannerUrl, err
 }
 
 func search(artistName string) ([]byte, error) {
@@ -61,7 +69,7 @@ func search(artistName string) ([]byte, error) {
 	return matches[2], nil
 }
 
-func getBanner(path string) (string, error) {
+func scrapThumbnail(path string) (string, error) {
 	request, err := http.NewRequest("GET", baseUrl+"channel/"+path, nil)
 	if err != nil {
 		return "", err
@@ -166,4 +174,43 @@ func htoa(txt string) string {
 		}
 	}
 	return result
+}
+
+func isStored(bannerStorePath string) bool {
+	_, err := os.Stat(bannerStorePath)
+	return err == nil
+}
+
+func storeBanner(bannerUrl string, bannerStorePath string) {
+	if bannerUrl == "" {
+		return
+	}
+
+	resp, err := http.Get(bannerUrl)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	_, err = os.Stat(bannerStorePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			err := os.MkdirAll(bannerStoreDirectory, 0744)
+			if err != nil {
+				return
+			}
+		} else {
+			return
+		}
+	}
+
+	err = os.WriteFile(bannerStorePath, body, 0744)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }

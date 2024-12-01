@@ -54,6 +54,11 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 			errChan <- fetchError{404, err.Error(), err}
 			return
 		}
+		bannerUrl, err = utils.GetBanner(artist["name"].(string))
+		if err != nil {
+			fmt.Println(err)
+		}
+		artist["banner"] = bannerUrl
 		errChan <- fetchError{}
 	}()
 
@@ -80,17 +85,9 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	url, err := utils.GetBanner(artist["name"].(string))
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		bannerUrl = url
-	}
-
 	artist["datesLocations"] = relation["datesLocations"]
-	artist["banner"] = bannerUrl
 
-	err = config.Templates.ExecuteTemplate(w, "artist.html", artist)
+	err := config.Templates.ExecuteTemplate(w, "artist.html", artist)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
