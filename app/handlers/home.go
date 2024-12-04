@@ -13,7 +13,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method != http.MethodGet {
-		http.Error(w, "501 - method not implemented", http.StatusNotImplemented)
+		http.Error(w, "405 - method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
