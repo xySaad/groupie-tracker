@@ -53,16 +53,16 @@ func TestTravisScottLocations(t *testing.T) {
 	}
 
 	expected := []string{
-		"santiago-chile",
-		"sao_paulo-brazil",
-		"los_angeles-usa",
-		"houston-usa",
-		"atlanta-usa",
-		"new_orleans-usa",
-		"philadelphia-usa",
-		"london-uk",
-		"frauenfeld-switzerland",
-		"turku-finland",
+		"Atlanta, Usa",
+		"Frauenfeld, Switzerland",
+		"Houston, Usa",
+		"London, Uk",
+		"Los Angeles, Usa",
+		"New Orleans, Usa",
+		"Philadelphia, Usa",
+		"Santiago, Chile",
+		"Sao Paulo, Brazil",
+		"Turku, Finland",
 	}
 
 	valid, missing := containAll(resp.body, expected)

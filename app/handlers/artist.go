@@ -73,6 +73,11 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 			errChan <- fetchError{404, err.Error(), err}
 			return
 		}
+		var datesLocations utils.Object
+		relation.Get(&datesLocations, ".datesLocations")
+		formatedRelation := utils.FormatLocations(datesLocations)
+		datesLocations = nil
+		relation["datesLocations"] = formatedRelation
 		errChan <- fetchError{}
 	}()
 
