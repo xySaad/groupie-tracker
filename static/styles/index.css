@@ -134,7 +134,7 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
     top: 0;
 }
 
-.nameWraper:hover .name {
+/* .nameWraper:hover .name {
     overflow: visible;
 }
 
@@ -156,7 +156,7 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
 .nameWraper:hover .name.right {
     transition: left 2s 2s, opacity 2s;
     left: 0;
-}
+} */
 
 .artist-card .image {
     position: relative;
