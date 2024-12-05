@@ -48,11 +48,13 @@ func TestMethodsAndInvalidPath(t *testing.T) {
 			}
 			if method == path.method {
 				if resp.status != http.StatusOK {
-					if resp.status != http.StatusMethodNotAllowed {
-						t.Error("expected status code 405", "got:", resp.status)
-					}
+					t.Error("expected status code 200", "got:", resp.status)
 				}
+			} else if resp.status != http.StatusMethodNotAllowed {
+				t.Error("expected status code 405", "got:", resp.status)
+
 			}
+
 			// test error priority
 			// 404 should be prioritiezed over invalid 405
 			resp, err = request(method, path.Get("/invalidpath"))
