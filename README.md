@@ -23,6 +23,14 @@ Server running on http://localhost:8080
 
 ### Tests
 
+run the server first
+
+```bash
+go run ./app
+```
+
+then run the tests (in another terminal)
+
 ```bash
 go test ./tests
 ```
