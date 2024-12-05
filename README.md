@@ -12,10 +12,12 @@ Groupie Trackers is a program written in go consists on receiving artist details
 ## Usage
 
 ```bash
-$ git clone https://github.com/xySaad/groupie-tracker
-$ cd groupie-tracker
-$ go run ./app
+git clone https://github.com/xySaad/groupie-tracker
+cd groupie-tracker
+go run ./app
+```
 
+```
 Server running on http://localhost:8080
 ```
 
