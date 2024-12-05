@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"groupie-tracker/config"
@@ -91,11 +92,12 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	artist["datesLocations"] = relation["datesLocations"]
-
-	err := config.Templates.ExecuteTemplate(w, "artist.html", artist)
+	var buffer bytes.Buffer
+	err := config.Templates.ExecuteTemplate(&buffer, "artist.html", artist)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 		return
 	}
+	buffer.WriteTo(w)
 }

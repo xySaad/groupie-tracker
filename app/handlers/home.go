@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"groupie-tracker/config"
 	"groupie-tracker/utils"
 	"net/http"
@@ -24,10 +25,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error fetching artists", http.StatusInternalServerError)
 		return
 	}
-
-	err = config.Templates.ExecuteTemplate(w, "home.html", artists)
+	var buffer bytes.Buffer
+	err = config.Templates.ExecuteTemplate(&buffer, "home.html", artists)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 		return
 	}
+	buffer.WriteTo(w)
 }
