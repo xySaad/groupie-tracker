@@ -22,27 +22,25 @@
             <p>First Album: {{.firstAlbum}}</p>
           </div>
         </div>
-        <div class="details">
-          <div class="section dim-bg">
-            <div class="title">Members</div>
-            {{range $index, $member := .members}}{{if $index}} {{end}}
-            <p>{{$member }}</p>
-            {{end}}
-          </div>
-          <div class="section dim-bg">
-            <div class="title">Concerts</div>
-            <div class="locations">
-              {{range $location, $dates := .datesLocations}}
-              <div class="location">
-                <div class="name">{{$location}}</div>
-                <div class="dates">
-                  {{range $dates}}
-                  <div class="date">{{.}}</div>
-                  {{end}}
-                </div>
+        <div class="section dim-bg">
+          <div class="title">Members</div>
+          {{range $index, $member := .members}}{{if $index}} {{end}}
+          <p>{{$member }}</p>
+          {{end}}
+        </div>
+        <div class="section dim-bg">
+          <div class="title">Concerts</div>
+          <div class="locations">
+            {{range $location, $dates := .datesLocations}}
+            <div class="location">
+              <div class="name">{{$location}}</div>
+              <div class="dates">
+                {{range $dates}}
+                <div class="date">{{.}}</div>
+                {{end}}
               </div>
-              {{end}}
             </div>
+            {{end}}
           </div>
         </div>
       </div>

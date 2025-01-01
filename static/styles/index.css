@@ -29,7 +29,7 @@ a {
 }
 
 header {
-    padding: 16px;
+    padding: 1rem;
     z-index: 1;
     display: flex;
     justify-content: space-between;
@@ -54,7 +54,7 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 1.25rem;
     max-width: 90vw;
     padding: 2rem 1rem;
     border-radius: 8px;
@@ -83,13 +83,6 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
     box-shadow: 0 20px 80px -10px var(--primary);
 }
 
-
-/* .artist-card:hover img,
-.artist-card:hover+.artist-card img,
-.artist-card:has(+ .artist-card:hover) img {
-    filter: brightness(100%);
-} */
-
 .artist-card:hover .nameWraper {
     box-shadow: 0 0 10px var(--primary);
     border: 1px solid var(--primary);
@@ -98,7 +91,6 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
 
 
 .artist-card img {
-    /* filter: brightness(80%); */
     width: 100%;
     border-radius: 10px;
 }
@@ -112,7 +104,7 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
     color: var(--text);
     width: 100%;
     border-radius: 8px;
-    margin-top: 10px;
+    margin-top: 0.625rem;
     overflow: hidden;
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0);
@@ -133,30 +125,6 @@ body:not(.scrolling) .container:has(.artist-card:hover) .artist-card:not(:hover)
     position: absolute;
     top: 0;
 }
-
-/* .nameWraper:hover .name {
-    overflow: visible;
-}
-
-.name.left {
-    transition: right 3s, opacity 5s;
-    right: 0%;
-}
-
-.name.right {
-    transition: left 2s, opacity 2s;
-    left: 100%;
-}
-
-.nameWraper:hover .name.left {
-    opacity: 0;
-    right: 100%;
-}
-
-.nameWraper:hover .name.right {
-    transition: left 2s 2s, opacity 2s;
-    left: 0;
-} */
 
 .artist-card .image {
     position: relative;
