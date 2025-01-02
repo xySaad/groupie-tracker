@@ -9,7 +9,7 @@
     position: relative;
 }
 
-.artist .overview {
+.artist .overview img{
     max-width: 30vw;
 }
 
@@ -17,7 +17,10 @@
     width: 100%;
     border-radius: 10px;
 }
-
+.artist .overview .section {
+    width: 100%;
+    white-space: nowrap;
+}
 .info>.section p {
     white-space: wrap;
 }
@@ -75,6 +78,7 @@
     opacity: 0;
     height: 0;
     overflow: hidden;
+    width: 100%;
 }
 
 .location .dates .date {
