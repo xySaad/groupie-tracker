@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"groupie-tracker/config"
-	"groupie-tracker/handlers"
 	"net/http"
 	"os"
+
+	"groupie-tracker/config"
+	"groupie-tracker/handlers"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/artist", handlers.Artist)
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.HandleFunc("/static/", handlers.Static)
 
 	fmt.Println("Server running on http://localhost:8080")
 	err = http.ListenAndServe(":8080", nil)
