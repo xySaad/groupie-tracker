@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"net/http"
+
 	"groupie-tracker/config"
 	"groupie-tracker/utils"
-	"net/http"
 )
 
 const BaseURL = "https://groupietrackers.herokuapp.com/api"
@@ -19,12 +20,12 @@ type fetchError struct {
 
 func Artist(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/artist" {
-		http.Error(w, "404 - page not found", http.StatusNotFound)
+		Error(w, "404 - page not found", http.StatusNotFound)
 		return
 	}
 
 	if r.Method != http.MethodGet {
-		http.Error(w, "405 - method not allowed", http.StatusMethodNotAllowed)
+		Error(w, "405 - method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -33,7 +34,7 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 	msg, status := utils.ValidateArtistID(queries)
 
 	if status != http.StatusOK {
-		http.Error(w, msg, status)
+		Error(w, msg, status)
 		return
 	}
 
@@ -86,7 +87,7 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 		err := <-errChan
 		if err.error != nil {
 			fmt.Println(err)
-			http.Error(w, err.message, err.status)
+			Error(w, err.message, err.status)
 			return
 		}
 	}
@@ -96,7 +97,7 @@ func Artist(w http.ResponseWriter, r *http.Request) {
 	err := config.Templates.ExecuteTemplate(&buffer, "artist.html", artist)
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		Error(w, "Error rendering template", http.StatusInternalServerError)
 		return
 	}
 	buffer.WriteTo(w)
