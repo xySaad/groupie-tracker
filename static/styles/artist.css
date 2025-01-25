@@ -9,10 +9,12 @@
     position: relative;
 }
 .artist .overview {
-    margin: auto;
-}
-.artist .overview img{
-    max-width: 30vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
 }
 
 .artist .overview img {
@@ -33,7 +35,12 @@
     border: 1px solid var(--primary);
     border-radius: 10px;
     padding: 10px;
+}
 
+@media (orientation: portrait) {
+    .info >.section {
+        min-width: 70%;
+    }
 }
 
 .artist .section .title {
@@ -59,34 +66,42 @@
 
 .locations {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+.location {
+    display: flex;
+    gap: 20px;
 }
 
 .location .name {
-    width: fit-content;
-    max-width: calc(100% - 10px);
     border-bottom: var(--accent) 1px solid;
     font-style: italic;
+    height: fit-content;
+    text-wrap: wrap;
+    min-width: 40%;
+    max-width: 40%;
 }
 
 .location .dates {
-    transition: all 0.5s linear;
     display: flex;
-    padding: 10px;
-    border-radius: 0 10px 10px 10px;
-    flex-wrap: wrap;
     gap: 10px;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-    width: 100%;
+    flex-wrap: wrap;
 }
 
-.location .dates .date {
-    width: 45%;
+.date {
+    flex: 1;
 }
 
+.date::after {
+    content: ',';
+}
+
+.date:last-child::after {
+    content: '';
+}
 .info {
     gap: 10px;
     width: 100%;
@@ -94,13 +109,6 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     overflow: hidden;
-}
-
-
-.location:has(.name:hover) .dates {
-    opacity: 1;
-    height: auto;
-    overflow: visible;
 }
 
 .artist>.name,
